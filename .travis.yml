@@ -39,71 +39,71 @@ matrix:
     - env:
        - NAME="license checks"
       install: true
-      script: MAVEN_OPTS='-Xmx3000m' mvn clean verify -Prat -DskipTests -B -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn -Drat.consoleOutput=true
+      script: MAVEN_OPTS='-Xmx3000m' ./mvnw clean verify -Prat -DskipTests -B -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn -Drat.consoleOutput=true
 
       # strict compilation
     - env:
         - NAME="strict compilation"
       install: true
       # Strict compilation requires more than 2 GB
-      script: MAVEN_OPTS='-Xmx3000m' mvn clean -Pstrict -pl '!benchmarks' compile test-compile -B --fail-at-end
+      script: MAVEN_OPTS='-Xmx3000m' ./mvnw clean -Pstrict -pl '!benchmarks' compile test-compile -B --fail-at-end
 
     # packaging check
     - env:
         - NAME="packaging check"
       install: true
-      script: MAVEN_OPTS='-Xmx3000m' mvn -DskipTests -Dforbiddenapis.skip=true -Dcheckstyle.skip=true -Dpmd.skip=true -Dmaven.javadoc.skip=true -pl '!benchmarks' -B --fail-at-end clean install -Pdist
+      script: MAVEN_OPTS='-Xmx3000m' ./mvnw -DskipTests -Dforbiddenapis.skip=true -Dcheckstyle.skip=true -Dpmd.skip=true -Dmaven.javadoc.skip=true -pl '!benchmarks' -B --fail-at-end clean install -Pdist
 
       # processing module test
     - env:
         - NAME="processing module test"
-      install: MAVEN_OPTS='-Xmx3000m' mvn install -q -ff -DskipTests -B
+      install: MAVEN_OPTS='-Xmx3000m' ./mvnw install -q -ff -DskipTests -B
       before_script: unset _JAVA_OPTIONS
       script:
         # Set MAVEN_OPTS for Surefire launcher
-        - MAVEN_OPTS='-Xmx512m' mvn test -B -pl processing
+        - MAVEN_OPTS='-Xmx512m' ./mvnw test -B -pl processing
         - sh -c "dmesg | egrep -i '(oom|out of memory|kill process|killed).*' -C 1 || exit 0"
         - free -m
 
       # processing module tests with SQL Compatibility enabled
     - env:
         - NAME="processing module test with SQL Compatibility"
-      install: MAVEN_OPTS='-Xmx3000m' mvn install -q -ff -DskipTests -B
+      install: MAVEN_OPTS='-Xmx3000m' ./mvnw install -q -ff -DskipTests -B
       before_script: unset _JAVA_OPTIONS
       script:
         # Set MAVEN_OPTS for Surefire launcher
-        - MAVEN_OPTS='-Xmx512m' mvn test -B -Ddruid.generic.useDefaultValueForNull=false -pl processing
+        - MAVEN_OPTS='-Xmx512m' ./mvnw test -B -Ddruid.generic.useDefaultValueForNull=false -pl processing
         - sh -c "dmesg | egrep -i '(oom|out of memory|kill process|killed).*' -C 1 || exit 0"
         - free -m
 
       # server module test
     - env:
         - NAME="server module test"
-      install: MAVEN_OPTS='-Xmx3000m' mvn install -q -ff -DskipTests -B
+      install: MAVEN_OPTS='-Xmx3000m' ./mvnw install -q -ff -DskipTests -B
       before_script: unset _JAVA_OPTIONS
       script:
         # Set MAVEN_OPTS for Surefire launcher
-        - MAVEN_OPTS='-Xmx512m' mvn test -B -pl server
+        - MAVEN_OPTS='-Xmx512m' ./mvnw test -B -pl server
 
       # server module test with SQL Compatibility enabled
     - env:
         - NAME="server module test with SQL Compatibility enabled"
-      install: MAVEN_OPTS='-Xmx3000m' mvn install -q -ff -DskipTests -B
+      install: MAVEN_OPTS='-Xmx3000m' ./mvnw install -q -ff -DskipTests -B
       before_script: unset _JAVA_OPTIONS
       script:
         # Set MAVEN_OPTS for Surefire launcher
-        - MAVEN_OPTS='-Xmx512m' mvn test -B -pl server -Ddruid.generic.useDefaultValueForNull=false
+        - MAVEN_OPTS='-Xmx512m' ./mvnw test -B -pl server -Ddruid.generic.useDefaultValueForNull=false
 
 
       # other modules test
     - env:
         - NAME="other modules test"
         - AWS_REGION=us-east-1 # set a aws region for unit tests
-      install: MAVEN_OPTS='-Xmx3000m' mvn install -q -ff -DskipTests -B
+      install: MAVEN_OPTS='-Xmx3000m' ./mvnw install -q -ff -DskipTests -B
       before_script: unset _JAVA_OPTIONS
       script:
         # Set MAVEN_OPTS for Surefire launcher
-        - MAVEN_OPTS='-Xmx512m' mvn test -B -pl '!processing,!server'
+        - MAVEN_OPTS='-Xmx512m' ./mvnw test -B -pl '!processing,!server'
         - sh -c "dmesg | egrep -i '(oom|out of memory|kill process|killed).*' -C 1 || exit 0"
         - free -m
 
@@ -111,11 +111,11 @@ matrix:
     - env:
         - NAME="other modules test with SQL Compatibility"
         - AWS_REGION=us-east-1 # set a aws region for unit tests
-      install: MAVEN_OPTS='-Xmx3000m' mvn install -q -ff -DskipTests -B
+      install: MAVEN_OPTS='-Xmx3000m' ./mvnw install -q -ff -DskipTests -B
       before_script: unset _JAVA_OPTIONS
       script:
         # Set MAVEN_OPTS for Surefire launcher
-        - MAVEN_OPTS='-Xmx512m' mvn test -B -Ddruid.generic.useDefaultValueForNull=false -pl '!processing,!server'
+        - MAVEN_OPTS='-Xmx512m' ./mvnw test -B -Ddruid.generic.useDefaultValueForNull=false -pl '!processing,!server'
         - sh -c "dmesg | egrep -i '(oom|out of memory|kill process|killed).*' -C 1 || exit 0"
         - free -m
 
@@ -128,7 +128,7 @@ matrix:
         - DOCKER_IP=127.0.0.1
       install:
         # Only errors will be shown with the -q option. This is to avoid generating too many logs which make travis build failed.
-        - mvn install -q -ff -DskipTests -B
+        - ./mvnw install -q -ff -DskipTests -B
       script:
         - $TRAVIS_BUILD_DIR/ci/travis_script_integration.sh
       after_failure:
@@ -149,7 +149,7 @@ matrix:
         - DOCKER_IP=127.0.0.1
       install:
         # Only errors will be shown with the -q option. This is to avoid generating too many logs which make travis build failed.
-        - mvn install -q -ff -DskipTests -B
+        - ./mvnw install -q -ff -DskipTests -B
       script:
         - $TRAVIS_BUILD_DIR/ci/travis_script_integration_part2.sh
       after_failure:
