@@ -71,12 +71,12 @@ The final command uses the `jq` tool to read the Driver->HostOnlyCIDR field from
 
 To run all the tests using docker and mvn run the following command:
 ```
-  ./mvnw verify -P integration-tests
+  ../mvnw verify -P integration-tests
 ```
 
 To run only a single test using mvn run the following command:
 ```
-  ./mvnw verify -P integration-tests -Dit.test=<test_name>
+  ../mvnw verify -P integration-tests -Dit.test=<test_name>
 ```
 
 Running Tests Using A Configuration File for Any Cluster
@@ -106,12 +106,12 @@ export CONFIG_FILE=<config file name>
 
 To run all the tests using mvn run the following command:
 ```
-  ./mvnw verify -P int-tests-config-file
+  ../mvnw verify -P int-tests-config-file
 ```
 
 To run only a single test using mvn run the following command:
 ```
-  ./mvnw verify -P int-tests-config-file -Dit.test=<test_name>
+  ../mvnw verify -P int-tests-config-file -Dit.test=<test_name>
 ```
 
 Running a Test That Uses Hadoop
@@ -136,15 +136,15 @@ Add this keyword to the configuration file (see above):
     "hadoopTestDir": "<name_of_dir_containing_batchHadoop1>"
 ```
 
-Run the test using ./mvnw:
+Run the test using mvn:
 
 ```
-  ./mvnw verify -P int-tests-config-file -Dit.test=ITHadoopIndexTest
+  ../mvnw verify -P int-tests-config-file -Dit.test=ITHadoopIndexTest
 ```
 
 In some test environments, the machine where the tests need to be executed
 cannot access the outside internet, so mvn cannot be run.  In that case,
-do the following instead of running the tests using ./mvnw:
+do the following instead of running the tests using mvn:
 
 ### Compile druid and the integration tests
 
@@ -152,9 +152,9 @@ On a machine that can do mvn builds:
 
 ```
 cd druid
-./mvnw clean package
+../mvnw clean package
 cd integration_tests
-./mvnw dependency:copy-dependencies package
+../mvnw dependency:copy-dependencies package
 ```
 
 ### Put the compiled test code into your test cluster

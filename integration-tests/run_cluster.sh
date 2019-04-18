@@ -45,7 +45,7 @@ mkdir -p $SHARED_DIR/tasklogs
 # install druid jars
 rm -rf $SHARED_DIR/docker
 cp -R docker $SHARED_DIR/docker
-./mvnw -B dependency:copy-dependencies -DoutputDirectory=$SHARED_DIR/docker/lib
+../mvnw -B dependency:copy-dependencies -DoutputDirectory=$SHARED_DIR/docker/lib
 
 # install logging config
 cp src/main/resources/log4j2.xml $SHARED_DIR/docker/lib/log4j2.xml
