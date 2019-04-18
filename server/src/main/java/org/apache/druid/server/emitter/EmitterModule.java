@@ -88,7 +88,7 @@ public class EmitterModule implements Module
     String version = getClass().getPackage().getImplementationVersion();
     extraServiceDimensions
         .addBinding("version")
-        .toInstance(StringUtils.nullToEmptyNonDruidDataString(version)); // Version is null during `mvn test`.
+        .toInstance(StringUtils.nullToEmptyNonDruidDataString(version)); // Version is null during `./mvnw test`.
   }
 
   @Provides

@@ -47,7 +47,7 @@ cd druid
 The basic command to build Druid from source is:
 
 ```bash
-mvn clean install
+./mvnw clean install
 ```
 
 This will run static analysis, unit tests, compile classes, and package the projects into JARs. It will _not_ generate the source or binary distribution tarball.
@@ -62,5 +62,5 @@ In addition to the basic stages, you may also want to add the following profiles
 Putting these together, if you wish to build the source and binary distributions with signatures and checksums, audit licenses, and skip the unit tests, you would run:
 
 ```bash
-mvn clean install -Papache-release,dist,rat -DskipTests
+./mvnw clean install -Papache-release,dist,rat -DskipTests
 ```

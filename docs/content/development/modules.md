@@ -53,7 +53,7 @@ Extensions are added to the system via an implementation of `org.apache.druid.in
 
 The DruidModule class is has two methods
 
-1. A `configure(Binder)` method 
+1. A `configure(Binder)` method
 2. A `getJacksonModules()` method
 
 The `configure(Binder)` method is the same method that a normal Guice module would have.
@@ -100,16 +100,16 @@ Binders.dataSegmentPusherBinder(binder)
 
 In addition to DataSegmentPusher and DataSegmentPuller, you can also bind:
 
-* DataSegmentKiller: Removes segments, used as part of the Kill Task to delete unused segments, i.e. perform garbage collection of segments that are either superseded by newer versions or that have been dropped from the cluster. 
-* DataSegmentMover: Allow migrating segments from one place to another, currently this is only used as part of the MoveTask to move unused segments to a different S3 bucket or prefix, typically to reduce storage costs of unused data (e.g. move to glacier or cheaper storage) 
-* DataSegmentArchiver: Just a wrapper around Mover, but comes with a pre-configured target bucket/path, so it doesn't have to be specified at runtime as part of the ArchiveTask. 
+* DataSegmentKiller: Removes segments, used as part of the Kill Task to delete unused segments, i.e. perform garbage collection of segments that are either superseded by newer versions or that have been dropped from the cluster.
+* DataSegmentMover: Allow migrating segments from one place to another, currently this is only used as part of the MoveTask to move unused segments to a different S3 bucket or prefix, typically to reduce storage costs of unused data (e.g. move to glacier or cheaper storage)
+* DataSegmentArchiver: Just a wrapper around Mover, but comes with a pre-configured target bucket/path, so it doesn't have to be specified at runtime as part of the ArchiveTask.
 
 ### Validating your deep storage implementation
 
 **WARNING!** This is not a formal procedure, but a collection of hints to validate if your new deep storage implementation is able do push, pull and kill segments.
 
 It's recommended to use batch ingestion tasks to validate your implementation.
-The segment will be automatically rolled up to Historical note after ~20 seconds. 
+The segment will be automatically rolled up to Historical note after ~20 seconds.
 In this way, you can validate both push (at realtime process) and pull (at Historical process) segments.
 
 * DataSegmentPusher
@@ -173,7 +173,7 @@ Note that inside of Druid, we have made the @JacksonInject annotation for Jackso
 
 Adding AggregatorFactory objects is very similar to Firehose objects.  They operate purely through Jackson and thus should just be additions to the Jackson modules returned by your DruidModule.
 
-### Adding Complex Metrics 
+### Adding Complex Metrics
 
 Adding ComplexMetrics is a little ugly in the current version.  The method of getting at complex metrics is through registration with the `ComplexMetrics.registerSerde()` method.  There is no special Guice stuff to get this working, just in your `configure(Binder)` method register the serde.
 
@@ -191,7 +191,7 @@ Registering these uses the same general strategy as a deep storage mechanism doe
 DruidBinders.queryToolChestBinder(binder)
             .addBinding(SegmentMetadataQuery.class)
             .to(SegmentMetadataQueryQueryToolChest.class);
-    
+
 DruidBinders.queryRunnerFactoryBinder(binder)
             .addBinding(SegmentMetadataQuery.class)
             .to(SegmentMetadataQueryRunnerFactory.class);
@@ -226,12 +226,12 @@ where `SomePasswordProvider` is the implementation of `PasswordProvider` interfa
 
 ### Bundle your extension with all the other Druid extensions
 
-When you do `mvn install`, Druid extensions will be packaged within the Druid tarball and `extensions` directory, which are both underneath `distribution/target/`.
+When you do `./mvnw install`, Druid extensions will be packaged within the Druid tarball and `extensions` directory, which are both underneath `distribution/target/`.
 
 If you want your extension to be included, you can add your extension's maven coordinate as an argument at
 [distribution/pom.xml](https://github.com/apache/incubator-druid/blob/master/distribution/pom.xml#L95)
 
-During `mvn install`, maven will install your extension to the local maven repository, and then call [pull-deps](../operations/pull-deps.html) to pull your extension from
+During `./mvnw install`, maven will install your extension to the local maven repository, and then call [pull-deps](../operations/pull-deps.html) to pull your extension from
 there. In the end, you should see your extension underneath `distribution/target/extensions` and within Druid tarball.
 
 ### Managing dependencies

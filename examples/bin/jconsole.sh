@@ -23,7 +23,7 @@
 ############################
 
 LOG4J2_VERSION=2.4.1
-MVN_REPO=`mvn help:evaluate -Dexpression=settings.localRepository | grep -v '\[INFO\]' | tail -n 1`
+MVN_REPO=`./mvnw help:evaluate -Dexpression=settings.localRepository | grep -v '\[INFO\]' | tail -n 1`
 LOG4J_API_PATH=${MVN_REPO}/org/apache/logging/log4j/log4j-api/${LOG4J2_VERSION}/log4j-api-${LOG4J2_VERSION}.jar
 LOG4J_CORE_PATH=${MVN_REPO}/org/apache/logging/log4j/log4j-core/${LOG4J2_VERSION}/log4j-core-${LOG4J2_VERSION}.jar
 LOG4J_GUI_PATH=${MVN_REPO}/org/apache/logging/log4j/log4j-jmx-gui/${LOG4J2_VERSION}/log4j-jmx-gui-${LOG4J2_VERSION}.jar
@@ -31,15 +31,15 @@ APACHE_REPO='https://repository.apache.org/content/groups/public'
 
 if [ ! -e ${LOG4J_API_PATH} ]; then
 	echo "Downloading missing jars for Log4j api version ${LOG4J2_VERSION} to ${LOG4J_API_PATH}"
-	mvn dependency:get -DrepoUrl=${APACHE_REPO} -Dartifact=org.apache.logging.log4j:log4j-api:${LOG4J2_VERSION} > /dev/null 2>&1 &
+	./mvnw dependency:get -DrepoUrl=${APACHE_REPO} -Dartifact=org.apache.logging.log4j:log4j-api:${LOG4J2_VERSION} > /dev/null 2>&1 &
 fi
 if [ ! -e ${LOG4J_CORE_PATH} ]; then
 	echo "Downloading missing jars for Log4j core version ${LOG4J2_VERSION} to ${LOG4J_CORE_PATH}"
-	mvn dependency:get -DrepoUrl=${APACHE_REPO} -Dartifact=org.apache.logging.log4j:log4j-core:${LOG4J2_VERSION} > /dev/null 2>&1 &
+	./mvnw dependency:get -DrepoUrl=${APACHE_REPO} -Dartifact=org.apache.logging.log4j:log4j-core:${LOG4J2_VERSION} > /dev/null 2>&1 &
 fi
 if [ ! -e ${LOG4J_GUI_PATH} ]; then
 	echo "Downloading missing jars for Log4j gui version ${LOG4J2_VERSION} to ${LOG4J_GUI_PATH}"
-	mvn dependency:get -DrepoUrl=${APACHE_REPO} -Dartifact=org.apache.logging.log4j:log4j-jmx-gui:${LOG4J2_VERSION} > /dev/null 2>&1 &
+	./mvnw dependency:get -DrepoUrl=${APACHE_REPO} -Dartifact=org.apache.logging.log4j:log4j-jmx-gui:${LOG4J2_VERSION} > /dev/null 2>&1 &
 fi
 wait
 

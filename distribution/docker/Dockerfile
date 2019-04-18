@@ -21,10 +21,10 @@ FROM maven:3-jdk-8 as builder
 
 COPY . /src
 WORKDIR /src
-RUN mvn install -ff -DskipTests -Dforbiddenapis.skip=true -Pdist -Pbundle-contrib-exts
+RUN ./mvnw install -ff -DskipTests -Dforbiddenapis.skip=true -Pdist -Pbundle-contrib-exts
 
 RUN \
- VER=$(mvn -B org.apache.maven.plugins:maven-help-plugin:3.1.1:evaluate -Dexpression=project.version -q -DforceStdout=true -f pom.xml 2>/dev/null) \
+ VER=$(./mvnw -B org.apache.maven.plugins:maven-help-plugin:3.1.1:evaluate -Dexpression=project.version -q -DforceStdout=true -f pom.xml 2>/dev/null) \
  && tar -zxf ./distribution/target/apache-druid-${VER}-bin.tar.gz -C /opt \
  && ln -s /opt/apache-druid-${VER} /opt/druid
 

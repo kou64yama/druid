@@ -40,7 +40,7 @@ def generate_reports(druid_path, tmp_path):
 
     print("********** Generating main LICENSE report.... **********")
     os.chdir(druid_path)
-    command = "mvn -Pdist -Ddependency.locations.enabled=false project-info-reports:dependencies"
+    command = "./mvnw -Pdist -Ddependency.locations.enabled=false project-info-reports:dependencies"
     outstr = subprocess.check_output(command, shell=True).decode('UTF-8')
     command = "cp -r distribution/target/site {}/site".format(license_main_path)
     outstr = subprocess.check_output(command, shell=True).decode('UTF-8')
@@ -61,7 +61,7 @@ def generate_reports(druid_path, tmp_path):
         os.chdir(full_extension_dir)
 
         try:
-            command = "mvn -Ddependency.locations.enabled=false project-info-reports:dependencies"
+            command = "./mvnw -Ddependency.locations.enabled=false project-info-reports:dependencies"
             outstr = subprocess.check_output(command, shell=True).decode('UTF-8')
             command = "cp -r target/site {}/site".format(extension_report_dir)
             outstr = subprocess.check_output(command, shell=True).decode('UTF-8')

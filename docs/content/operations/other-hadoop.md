@@ -99,7 +99,7 @@ cluster, or use the `pull-deps` tool to download the jars from a Maven repositor
 
 If you have issues with HDFS deep storage, you can switch your Hadoop client libraries by recompiling the
 druid-hdfs-storage extension using an alternate version of the Hadoop client libraries. You can do this by editing
-the main Druid pom.xml and rebuilding the distribution by running `mvn package`.
+the main Druid pom.xml and rebuilding the distribution by running `./mvnw package`.
 
 If you have issues with Map/Reduce jobs, you can switch your Hadoop client libraries without rebuilding Druid. You can
 do this by adding a new set of libraries to the `hadoop-dependencies/` directory (or another directory specified by
@@ -286,7 +286,7 @@ If sbt is not your choice, you can also use `maven-shade-plugin` to make a fat j
  </plugin>
 ```
 
-Copy out `services/target/xxxxx-selfcontained.jar` after `mvn install` in project root for further usage.
+Copy out `services/target/xxxxx-selfcontained.jar` after `./mvnw install` in project root for further usage.
 
 (3) run hadoop indexer (post an indexing task is not possible now) as below. `lib` is not needed anymore. As hadoop indexer is a standalone tool, you don't have to replace the jars of your running services:
 

@@ -36,7 +36,7 @@ done
 shift $((OPTIND-1))
 
 # Set $version to Druid version (tag will be "druid-$version")
-if [ -z "$1" ]; then 
+if [ -z "$1" ]; then
     version="latest"
 else
     version=$1
@@ -102,7 +102,7 @@ fi
 
 # generate javadocs for releases (not for master)
 if [ "$version" != "latest" ] && [ -n "$opt_api" ] ; then
-  (cd $src && mvn javadoc:aggregate)
+  (cd $src && ./mvnw javadoc:aggregate)
   mkdir -p $target/api/$version
   if [ -z "$opt_dryrun" ]; then
     $s3sync "$src/target/site/apidocs/" "s3://static.druid.io/api/$version/"
