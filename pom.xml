@@ -1558,6 +1558,7 @@
                                 <exclude>node_modules/**</exclude>
                                 <exclude>coordinator-console/**</exclude>
                                 <exclude>mvnw*</exclude>
+                                <exclude>.nvm/**</exclude>
                             </excludes>
                         </configuration>
                     </plugin>
